@@ -20276,6 +20276,8 @@ with pkgs;
 
   libnfc = callPackage ../development/libraries/libnfc { };
 
+  libnfc-nci = callPackage ../development/libraries/libnfc-nci { };
+
   libnfs = callPackage ../development/libraries/libnfs { };
 
   libnice = callPackage ../development/libraries/libnice { };
