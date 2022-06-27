@@ -3740,6 +3740,8 @@ with pkgs;
 
   globalarrays = callPackage ../development/libraries/globalarrays { };
 
+  globalplatformpro = callPackage ../development/tools/misc/globalplatformpro { };
+
   glock = callPackage ../development/tools/glock { };
 
   glslviewer = callPackage ../development/tools/glslviewer {
