@@ -10183,6 +10183,9 @@ with pkgs;
   pcsc-safenet = callPackage ../tools/security/pcsc-safenet { };
 
   pcsc-scm-scl011 = callPackage ../tools/security/pcsc-scm-scl011 { };
+
+  pcsc-scm-scl371x = callPackage ../tools/security/pcsc-scm-scl371x { };
+
   ifdnfc = callPackage ../tools/security/ifdnfc { };
 
   pdd = python3Packages.callPackage ../tools/misc/pdd { };
