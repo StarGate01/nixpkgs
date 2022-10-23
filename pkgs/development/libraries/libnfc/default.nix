@@ -5,6 +5,8 @@
 , readline
 , cmake
 , pkg-config
+, pcsclite
+, PCSC
 }:
 
 stdenv.mkDerivation rec {
@@ -26,13 +28,17 @@ stdenv.mkDerivation rec {
   buildInputs = [
     libusb-compat-0_1
     readline
-  ];
+    pcsclite
+  ] ++ lib.optionals stdenv.isDarwin [ PCSC ];
 
   configureFlags = [
     "sysconfdir=/etc"
   ];
 
-  cmakeFlags = lib.optionals stdenv.isDarwin [
+  cmakeFlags = [
+    "-DLIBNFC_DRIVER_PCSC=ON"
+    "-DLIBNFC_DRIVER_ACR122_PCSC=ON"
+  ] ++ lib.optionals stdenv.isDarwin [
     "-DLIBNFC_DRIVER_PN532_I2C=OFF"
     "-DLIBNFC_DRIVER_PN532_SPI=OFF"
   ];

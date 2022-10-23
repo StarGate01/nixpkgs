@@ -20274,7 +20274,9 @@ with pkgs;
 
   libndp = callPackage ../development/libraries/libndp { };
 
-  libnfc = callPackage ../development/libraries/libnfc { };
+  libnfc = callPackage ../development/libraries/libnfc {
+    inherit (darwin.apple_sdk.frameworks) PCSC;
+  };
 
   libnfs = callPackage ../development/libraries/libnfs { };
 
