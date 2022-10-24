@@ -24,6 +24,10 @@ stdenv.mkDerivation rec {
 
   sourceRoot = "source/pcsc-relay";
 
+  CFLAGS = [
+    "-g"
+  ];
+
   nativeBuildInputs = [
     autoreconfHook
     libtool
@@ -43,6 +47,8 @@ stdenv.mkDerivation rec {
       gnureadline
     ]))
   ] ++ lib.optionals stdenv.isDarwin [ PCSC ];
+
+  dontStrip = true;
 
   meta = with lib; {
     description = "Relays a smart card using an contact-less interface";

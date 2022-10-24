@@ -14,10 +14,10 @@ stdenv.mkDerivation rec {
   version = "1.8.0";
 
   src = fetchFromGitHub {
-    owner = "nfc-tools";
+    owner = "StarGate01";
     repo = pname;
-    rev = "libnfc-${version}";
-    sha256 = "5gMv/HajPrUL/vkegEqHgN2d6Yzf01dTMrx4l34KMrQ=";
+    rev = "test";
+    sha256 = "sha256-xm5tLMpTiwjqekuB6QainCV2tB6c/MuqGRgsJ7SRiC8=";
   };
 
   nativeBuildInputs = [
@@ -36,12 +36,15 @@ stdenv.mkDerivation rec {
   ];
 
   cmakeFlags = [
+    "-DLIBNFC_DEBUG_MODE=ON"
     "-DLIBNFC_DRIVER_PCSC=ON"
     "-DLIBNFC_DRIVER_ACR122_PCSC=ON"
   ] ++ lib.optionals stdenv.isDarwin [
     "-DLIBNFC_DRIVER_PN532_I2C=OFF"
     "-DLIBNFC_DRIVER_PN532_SPI=OFF"
   ];
+
+  dontStrip = true;
 
   meta = with lib; {
     description = "Library for Near Field Communication (NFC)";
