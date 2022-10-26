@@ -1,0 +1,11 @@
+--- a/src/Info.plist.src
++++ b/src/Info.plist.src
+@@ -51,7 +51,7 @@
+ 	-->
+ 
+ 	<key>ifdDriverOptions</key>
+-	<string>0x0000</string>
++	<string>0x0001</string>
+ 
+ 	<!-- Possible values for ifdDriverOptions
+ 	0x01: DRIVER_OPTION_CCID_EXCHANGE_AUTHORIZED
