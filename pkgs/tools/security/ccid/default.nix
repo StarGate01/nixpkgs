@@ -9,6 +9,10 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-gVSbNCJGnVA5ltA6Ou0u8TdbNZFn8Q1mvp44ROcpMi4=";
   };
 
+  patches = [
+    ./Info.plist.src.patch
+  ];
+
   postPatch = ''
     patchShebangs .
     substituteInPlace src/Makefile.in --replace /bin/echo echo
