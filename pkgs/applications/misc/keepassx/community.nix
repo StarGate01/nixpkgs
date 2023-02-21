@@ -24,6 +24,7 @@
 , wrapQtAppsHook
 , zlib
 
+, PCSC
 , LocalAuthentication
 
 , withKeePassBrowser ? true
@@ -66,13 +67,13 @@ stdenv.mkDerivation rec {
     "-DWITH_GUI_TESTS=ON"
     "-DWITH_XC_UPDATECHECK=OFF"
   ]
-  ++ (lib.optional (!withKeePassX11) "-DWITH_XC_X11=OFF")
-  ++ (lib.optional (withKeePassFDOSecrets && stdenv.isLinux) "-DWITH_XC_FDOSECRETS=ON")
-  ++ (lib.optional (withKeePassYubiKey && stdenv.isLinux) "-DWITH_XC_YUBIKEY=ON")
-  ++ (lib.optional withKeePassBrowser "-DWITH_XC_BROWSER=ON")
-  ++ (lib.optional withKeePassKeeShare "-DWITH_XC_KEESHARE=ON")
-  ++ (lib.optional withKeePassNetworking "-DWITH_XC_NETWORKING=ON")
-  ++ (lib.optional withKeePassSSHAgent "-DWITH_XC_SSHAGENT=ON");
+  ++ (optional (!withKeePassX11) "-DWITH_XC_X11=OFF")
+  ++ (optional (withKeePassFDOSecrets && stdenv.isLinux) "-DWITH_XC_FDOSECRETS=ON")
+  ++ (optional withKeePassYubiKey "-DWITH_XC_YUBIKEY=ON")
+  ++ (optional withKeePassBrowser "-DWITH_XC_BROWSER=ON")
+  ++ (optional withKeePassKeeShare "-DWITH_XC_KEESHARE=ON")
+  ++ (optional withKeePassNetworking "-DWITH_XC_NETWORKING=ON")
+  ++ (optional withKeePassSSHAgent "-DWITH_XC_SSHAGENT=ON");
 
   doCheck = true;
   checkPhase = ''
@@ -111,10 +112,16 @@ stdenv.mkDerivation rec {
     readline
     zlib
   ]
-  ++ lib.optional (stdenv.isDarwin && withKeePassTouchID) LocalAuthentication
-  ++ lib.optional stdenv.isDarwin qtmacextras
-  ++ lib.optional stdenv.isLinux libusb1
-  ++ lib.optional withKeePassX11 qtx11extras;
+  ++ optional stdenv.isLinux [
+    pcsclite
+    libusb1
+  ]
+  ++ optional withKeePassX11 qtx11extras
+  ++ optional stdenv.isDarwin [
+    qtmacextras
+    PCSC
+  ]
+  ++ optional (stdenv.isDarwin && withKeePassTouchID) LocalAuthentication;
 
   passthru.tests = nixosTests.keepassxc;
 

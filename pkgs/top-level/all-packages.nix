@@ -29301,7 +29301,7 @@ with pkgs;
   keepassx = callPackage ../applications/misc/keepassx { };
   keepassx2 = callPackage ../applications/misc/keepassx/2.0.nix { };
   keepassxc = libsForQt5.callPackage ../applications/misc/keepassx/community.nix {
-    inherit (darwin.apple_sdk_11_0.frameworks) LocalAuthentication;
+    inherit (darwin.apple_sdk_11_0.frameworks) LocalAuthentication PCSC;
     stdenv = if stdenv.isDarwin then darwin.apple_sdk_11_0.stdenv else stdenv;
   };
 
