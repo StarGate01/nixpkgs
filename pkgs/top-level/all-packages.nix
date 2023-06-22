@@ -32535,6 +32535,8 @@ with pkgs;
     inherit (darwin.apple_sdk.frameworks) Security;
   };
 
+  mqtt-explorer = callPackage ../applications/networking/mqtt-explorer { };
+
   msmtp = callPackage ../applications/networking/msmtp {
     inherit (darwin.apple_sdk.frameworks) Security;
     autoreconfHook = buildPackages.autoreconfHook269;
