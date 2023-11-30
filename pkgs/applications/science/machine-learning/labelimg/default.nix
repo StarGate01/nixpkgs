@@ -5,8 +5,8 @@
     src = fetchFromGitHub {
       owner = "tzutalin";
       repo = "labelImg";
-      rev = "v${version}";
-      sha256 = "07v106fzlmxrbag4xm06m4mx9m0gckb27vpwsn7sap1bbgc1pap5";
+      rev = "b33f965b6d14c14f1e46b247f1bf346e03f2e950";
+      hash = "sha256-0DBPsQWwiUbBPbVu88yl4mGiMhYHYLWUkMsjpMbPrL4=";
     };
     nativeBuildInputs = with python3Packages; [
       pyqt5
