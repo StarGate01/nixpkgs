@@ -14447,6 +14447,9 @@ with pkgs;
     inherit (darwin.apple_sdk.frameworks) PCSC;
   };
 
+  vsmartcard-pcsc-relay = callPackage ../by-name/vs/vsmartcard-pcsc-relay/package.nix {
+    inherit (darwin.apple_sdk.frameworks) PCSC;
+  };
 
   vtm = callPackage ../tools/misc/vtm { };
 
