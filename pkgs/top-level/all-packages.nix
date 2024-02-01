@@ -14443,6 +14443,11 @@ with pkgs;
     SDL = SDL_sixel;
   };
 
+  vsmartcard-vpcd = callPackage ../by-name/vs/vsmartcard-vpcd/package.nix {
+    inherit (darwin.apple_sdk.frameworks) PCSC;
+  };
+
+
   vtm = callPackage ../tools/misc/vtm { };
 
   witness = callPackage ../tools/security/witness { };
