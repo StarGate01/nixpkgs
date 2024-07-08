@@ -82,6 +82,7 @@
   ./hardware/network/b43.nix
   ./hardware/network/intel-2200bg.nix
   ./hardware/new-lg4ff.nix
+  ./hardware/nfc-nci.nix
   ./hardware/nitrokey.nix
   ./hardware/onlykey/default.nix
   ./hardware/openrazer.nix
