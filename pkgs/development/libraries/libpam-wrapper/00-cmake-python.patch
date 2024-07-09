@@ -1,0 +1,73 @@
+diff --git a/src/python/python3/CMakeLists.txt b/src/python/python3/CMakeLists.txt
+index fd36fb0fc280..e26727250177 100644
+--- a/src/python/python3/CMakeLists.txt	
++++ b/src/python/python3/CMakeLists.txt	
+@@ -1,30 +1,28 @@
+ project(python3-pamtest C)
+ 
+ if (NOT PYTHON3_LIBRARY)
+-    unset(PYTHON_EXECUTABLE CACHE)
+-    unset(PYTHON_INCLUDE_DIR CACHE)
+-    unset(PYTHON_LIBRARY CACHE)
+-    unset(PYTHON_SITELIB CACHE)
+-    unset(PYTHONLIBS_FOUND CACHE)
+-    unset(PYTHONLIBS_VERSION_STRING CACHE)
+-
+-    find_package(PythonLibs 3)
+-    find_package(PythonInterp 3)
+-    find_package(PythonSiteLibs 3)
+-
+-    if (PYTHONLIBS_FOUND)
+-        set(PYTHON3_LIBRARY ${PYTHON_LIBRARY})
+-        set(PYTHON3_INCLUDE_DIR ${PYTHON_INCLUDE_DIR})
+-        set(PYTHON3_SITELIB ${PYTHON_SITELIB})
+-        set(PYTHON3_EXECUTABLE ${PYTHON_EXECUTABLE} CACHE FILEPATH "PYTHON3_EXECUTABLE")
++    unset(Python3_EXECUTABLE CACHE)
++    unset(Python3_INCLUDE_DIRS CACHE)
++    unset(Python3_LIBRARIES CACHE)
++    unset(Python3_SITELIB CACHE)
++    unset(Python3_FOUND CACHE)
++    unset(Python3_VERSION CACHE)
++
++    find_package(Python3 COMPONENTS Interpreter Development)
++
++    if (Python3_FOUND)
++        set(PYTHON3_LIBRARY ${Python3_LIBRARIES})
++        set(PYTHON3_INCLUDE_DIR ${Python3_INCLUDE_DIRS})
++        set(PYTHON3_SITELIB ${Python3_SITELIB})
++        set(PYTHON3_EXECUTABLE ${Python3_EXECUTABLE} CACHE FILEPATH "PYTHON3_EXECUTABLE")
+     endif()
+ 
+-    unset(PYTHON_EXECUTABLE CACHE)
+-    unset(PYTHON_INCLUDE_DIR CACHE)
+-    unset(PYTHON_LIBRARY CACHE)
+-    unset(PYTHON_SITELIB CACHE)
+-    unset(PYTHONLIBS_FOUND CACHE)
+-    unset(PYTHONLIBS_VERSION_STRING CACHE)
++    unset(Python3_EXECUTABLE CACHE)
++    unset(Python3_INCLUDE_DIRS CACHE)
++    unset(Python3_LIBRARIES CACHE)
++    unset(Python3_SITELIB CACHE)
++    unset(Python3_FOUND CACHE)
++    unset(Python3_VERSION CACHE)
+ endif()
+ 
+ if (PYTHON3_INCLUDE_DIR AND PYTHON3_LIBRARY AND PYTHON3_SITELIB)
+@@ -32,8 +30,8 @@
+     include_directories(${pam_wrapper-headers_DIR})
+     include_directories(${PYTHON3_INCLUDE_DIR})
+ 
+-    python_add_module(python3-pamtest ${pypamtest_SOURCE_DIR}/pypamtest.c)
+-    target_link_libraries(python3-pamtest pamtest::pamtest ${PYTHON3_LIBRARY})
++    Python3_add_library(python3-pamtest ${pypamtest_SOURCE_DIR}/pypamtest.c)
++    target_link_libraries(python3-pamtest PRIVATE pamtest::pamtest ${PYTHON3_LIBRARY})
+     target_compile_options(python3-pamtest
+                            PRIVATE ${DEFAULT_C_COMPILE_FLAGS})
+     set_target_properties(python3-pamtest PROPERTIES OUTPUT_NAME "pypamtest")
+@@ -41,5 +39,5 @@
+     install(TARGETS
+                 python3-pamtest
+             DESTINATION
+-                ${CMAKE_INSTALL_PREFIX}/${PYTHON3_SITELIB})
++                ${CMAKE_INSTALL_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages)
+ endif()

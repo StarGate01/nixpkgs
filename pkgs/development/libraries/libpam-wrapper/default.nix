@@ -10,13 +10,18 @@ assert enablePython -> python != null;
 
 stdenv.mkDerivation rec {
   pname = "libpam-wrapper";
-  version = "1.1.3";
+  version = "1.1.5";
 
   src = fetchgit {
     url = "git://git.samba.org/pam_wrapper.git";
     rev = "pam_wrapper-${version}";
-    sha256 = "00mqhsashx7njrvxz085d0b88nizhdy7m3x17ip5yhvwsl63km6p";
+    sha256 = "sha256-AtfkiCUvCxUfll6lOlbMyy5AhS5R2BGF1+ecC1VuwzM=";
   };
+
+  patches = [
+    # See https://cmake.org/cmake/help/latest/policy/CMP0148.html
+    ./00-cmake-python.patch
+  ];
 
   nativeBuildInputs = [ cmake ] ++ lib.optionals enablePython [ python ];
 
