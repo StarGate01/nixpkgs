@@ -1,6 +1,6 @@
 { stdenv
 , lib
-, fetchurl
+, fetchFromGitHub
 , autoreconfHook
 , autoconf-archive
 , pkg-config
@@ -8,25 +8,32 @@
 , glib
 , dbus
 , libnl
-, python2Packages
+, python3Packages
+, python3
+, gobject-introspection
+, wrapGAppsHook
 }:
 
 stdenv.mkDerivation rec {
   pname = "neard";
-  version = "0.18";
+  version = "0.19-unreleased-2024-07-02";
 
   outputs = [ "out" "dev" ];
 
-  src = fetchurl {
-    url = "https://git.kernel.org/pub/scm/network/nfc/neard.git/snapshot/neard-${version}.tar.gz";
-    sha256 = "wBPjEVMV4uEdFrXw8cjOmvvNuiaACq2RJF/ZtKXck4s=";
+  src = fetchFromGitHub {
+    owner = "linux-nfc";
+    repo = "neard";
+    rev = "a0a7d4d677800a39346f0c89d93d0fe43a95efad";
+    hash = "sha256-6BgX7cJwxX+1RX3wU+HY/PIBgzomzOKemnl0SDLJNro=";
   };
 
   nativeBuildInputs = [
     autoreconfHook
     autoconf-archive
     pkg-config
-    python2Packages.wrapPython
+    python3Packages.wrapPython
+    gobject-introspection
+    wrapGAppsHook
   ];
 
   buildInputs = [
@@ -34,14 +41,13 @@ stdenv.mkDerivation rec {
     glib
     dbus
     libnl
-  ] ++ (with python2Packages; [
+  ] ++ (with python3Packages; [
     python
   ]);
 
-  pythonPath = with python2Packages; [
-    pygobject2
+  pythonPath = with python3Packages; [
     dbus-python
-    pygtk
+    pygobject3
   ];
 
   strictDeps = true;
@@ -55,6 +61,10 @@ stdenv.mkDerivation rec {
     "--with-systemdsystemunitdir=${placeholder "out"}/lib/systemd/system"
   ];
 
+  postFixup = ''
+    wrapPythonPrograms
+  '';
+
   postInstall = ''
     install -m 0755 tools/snep-send $out/bin/
 
@@ -67,12 +77,10 @@ stdenv.mkDerivation rec {
   '';
 
   meta = with lib; {
-    description = "Near Field Communication manager";
-    homepage = "https://01.org/linux-nfc";
+    description = "Near Field Communication Daemon for Linux ";
+    homepage = "https://github.com/linux-nfc/neard";
     license = licenses.gpl2Only;
-    maintainers = with maintainers; [ ];
-    platforms = platforms.unix;
-    # error: wcwidth-0.2.13 not supported for interpreter python2.7
-    broken = true; # Added 2024-03-17
+    maintainers = with maintainers; [ stargate01 ];
+    platforms = platforms.linux;
   };
 }
