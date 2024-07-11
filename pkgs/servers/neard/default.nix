@@ -11,7 +11,8 @@
 , python3Packages
 , python3
 , gobject-introspection
-, wrapGAppsHook
+, wrapGAppsHook3
+, gtk3
 }:
 
 stdenv.mkDerivation rec {
@@ -33,7 +34,7 @@ stdenv.mkDerivation rec {
     pkg-config
     python3Packages.wrapPython
     gobject-introspection
-    wrapGAppsHook
+    wrapGAppsHook3
   ];
 
   buildInputs = [
@@ -41,9 +42,8 @@ stdenv.mkDerivation rec {
     glib
     dbus
     libnl
-  ] ++ (with python3Packages; [
-    python
-  ]);
+    gtk3
+  ];
 
   pythonPath = with python3Packages; [
     dbus-python
@@ -60,10 +60,6 @@ stdenv.mkDerivation rec {
     "--enable-ese"
     "--with-systemdsystemunitdir=${placeholder "out"}/lib/systemd/system"
   ];
-
-  postFixup = ''
-    wrapPythonPrograms
-  '';
 
   postInstall = ''
     install -m 0755 tools/snep-send $out/bin/
