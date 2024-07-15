@@ -132,7 +132,8 @@ in
     services.pcscd.readerConfigs = [ ''
       FRIENDLYNAME "NFC NCI"
       LIBPATH      ${pkgs.ifdnfc-nci}/lib/libifdnfc-nci.so
-      CHANNELID    0''
+      CHANNELID    0
+      ''
     ];
 
     users.groups.dialout = { };
