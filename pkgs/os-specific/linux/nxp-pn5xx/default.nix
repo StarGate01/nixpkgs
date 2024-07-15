@@ -8,7 +8,7 @@
 
 stdenv.mkDerivation {
   pname = "nxp-pn5xx";
-  version = "0.1-unreleased-${kernel.version}";
+  version = "0.4-unstable-2024-07-05-${kernel.version}";
 
   src = fetchFromGitHub {
     owner = "jr64";

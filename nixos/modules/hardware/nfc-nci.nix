@@ -5,27 +5,27 @@ let
 
   defaultSettings = {
     nci = {
-      APPL_TRACE_LEVEL = "0x00";
-      PROTOCOL_TRACE_LEVEL = "0x00";
+      APPL_TRACE_LEVEL = "0x01";
+      PROTOCOL_TRACE_LEVEL = "0x01";
       HOST_LISTEN_TECH_MASK = "0x07";
       POLLING_TECH_MASK = "0xEF";
       P2P_LISTEN_TECH_MASK = "0xC5";
     };
     init = {
-      NXPLOG_GLOBAL_LOGLEVEL = "0x00";
-      NXPLOG_EXTNS_LOGLEVEL = "0x00";
-      NXPLOG_NCIHAL_LOGLEVEL = "0x00";
-      NXPLOG_NCIX_LOGLEVEL = "0x00";
-      NXPLOG_NCIR_LOGLEVEL = "0x00";
+      NXPLOG_GLOBAL_LOGLEVEL = "0x01";
+      NXPLOG_EXTNS_LOGLEVEL = "0x01";
+      NXPLOG_NCIHAL_LOGLEVEL = "0x01";
+      NXPLOG_NCIX_LOGLEVEL = "0x01";
+      NXPLOG_NCIR_LOGLEVEL = "0x01";
       NXPLOG_FWDNLD_LOGLEVEL = "0x00";
-      NXPLOG_TML_LOGLEVEL = "0x00";
+      NXPLOG_TML_LOGLEVEL = "0x01";
       NXP_NFC_DEV_NODE = ''"/dev/pn544"'';
       NXP_ACT_PROP_EXTN = "{2F, 02, 00}";
       NXP_NFC_PROFILE_EXTN = ''{20, 02, 05, 01,
         A0, 44, 01, 00
       }'';
-      NXP_CORE_STANDBY = "{2F, 00, 01, 00}";
-      NXP_I2C_FRAGMENTATION_ENABLED = "0x00";
+      NXP_CORE_STANDBY = "{2F, 00, 01, 01}";
+      NXP_I2C_FRAGMENTATION_ENABLED = "0x01";
     };
     pn54x = {
       MIFARE_READER_ENABLE = "0x01";
@@ -47,10 +47,17 @@ let
         82, 01, 0E,
         18, 01, 01
       }'';
-      NXP_CORE_CONF_EXTN = ''{20, 02, 09, 02,
+      NXP_CORE_CONF_EXTN = ''{20, 02, 30, 04,
         A0, 5E, 01, 01,
-        A0, 40, 01, 00
-      }'';
+        A0, 40, 01, 00,
+        A0, 43, 01, 00,
+        A0, 0F, 20,
+        00, 03, 1D, 01, 03, 00, 02, 00,
+        01, 00, 01, 00, 00, 00, 00, 00,
+        00, 00, 00, 00, 00, 00, 00, 00,
+        00, 00, 00, 00, 00, 00, 00, 00
+      }
+      '';
       NXP_NFC_PROPRIETARY_CFG = "{05:FF:FF:06:81:80:70:FF:FF}";
       NXP_EXT_TVDD_CFG = "0x01";
       NXP_EXT_TVDD_CFG_1 = ''{20, 02, 07, 01,
@@ -72,7 +79,7 @@ in
       type = lib.types.bool;
       default = false;
       description = ''
-        PN5xx udev rules and ensure 'dialout' group exists.
+        Add pn5xx kernel module with udev rules, add libnfc-nci userland, add idfnfc-nci PC/SC driver, and ensure 'dialout' group exists.
       '';
     };
 
@@ -100,6 +107,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
       pkgs.libnfc-nci
+      pkgs.idfnfc-nci
     ];
 
     environment.etc = {
@@ -119,6 +127,12 @@ in
     ];
     boot.kernelModules = [
       "nxp-pn5xx"
+    ];
+
+    services.pcscd.readerConfigs = [ ''
+      FRIENDLYNAME "NFC NCI"
+      LIBPATH      ${pkgs.idfnfc-nci}/lib/libidfnfc-nci.so
+      CHANNELID    0''
     ];
 
     users.groups.dialout = { };

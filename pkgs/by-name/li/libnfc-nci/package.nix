@@ -3,17 +3,19 @@
 , fetchFromGitHub
 , autoreconfHook
 , pkg-config
+, config
+, debug ? config.libnfc-nci.debug or false
 }:
 
 stdenv.mkDerivation {
   pname = "libnfc-nci";
-  version = "2.4.2-unreleased";
+  version = "2.4.1-unstable-2024-07-16";
 
   src = fetchFromGitHub {
-    owner = "NXPNFCLinux";
+    owner = "StarGate01";
     repo = "linux_libnfc-nci";
-    rev = "449538e5e106666e5263afeaddacc5836fc23d3f";
-    sha256 = "sha256-ngooArd2g8DBFRQ0M7BFYoJLlhWLX/R5YjuDkj6qh1Y=";
+    rev = "4fc402ffd07642b1231fb259a6b956771d524e5e";
+    sha256 = "sha256-mrGsTikxS/oR+Wh9a4aVCszbF/nbFAVBQfYN421vqU0=";
   };
 
   buildInputs = [
@@ -23,7 +25,10 @@ stdenv.mkDerivation {
 
   configureFlags = [
     "--enable-i2c"
+  ] ++ lib.optionals debug [
+    "--enable-debug"
   ];
+  dontStrip = debug;
 
   postInstall = ''
     rm -rf $out/etc
