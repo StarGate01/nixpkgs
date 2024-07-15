@@ -79,7 +79,7 @@ in
       type = lib.types.bool;
       default = false;
       description = ''
-        Add pn5xx kernel module with udev rules, add libnfc-nci userland, add idfnfc-nci PC/SC driver, and ensure 'dialout' group exists.
+        Add pn5xx kernel module with udev rules, add libnfc-nci userland, add ifdnfc-nci PC/SC driver, and ensure 'dialout' group exists.
       '';
     };
 
@@ -107,7 +107,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
       pkgs.libnfc-nci
-      pkgs.idfnfc-nci
+      pkgs.ifdnfc-nci
     ];
 
     environment.etc = {
@@ -131,7 +131,7 @@ in
 
     services.pcscd.readerConfigs = [ ''
       FRIENDLYNAME "NFC NCI"
-      LIBPATH      ${pkgs.idfnfc-nci}/lib/libidfnfc-nci.so
+      LIBPATH      ${pkgs.ifdnfc-nci}/lib/libifdnfc-nci.so
       CHANNELID    0''
     ];
 
