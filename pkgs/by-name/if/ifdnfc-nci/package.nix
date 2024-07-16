@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
     owner = "StarGate01";
     repo = "ifdnfc-nci";
     rev = "v${version}";
-    sha256 = "sha256-kk0X2uXMIxv+MJ/07zgaQfV/siBvUs49lxSieYnIEVQ=";
+    sha256 = "sha256-gU9XMj27v7wT+LR1nShDW2bTP6LYNkjoh7xMXgX7y3A=";
   };
 
   nativeBuildInputs = [
