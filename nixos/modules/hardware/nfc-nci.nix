@@ -129,13 +129,6 @@ in
       "nxp-pn5xx"
     ];
 
-    services.pcscd.readerConfigs = [ ''
-      FRIENDLYNAME "NFC NCI"
-      LIBPATH      ${pkgs.ifdnfc-nci}/lib/libifdnfc-nci.so
-      CHANNELID    0
-      ''
-    ];
-
     users.groups.dialout = { };
   };
 
