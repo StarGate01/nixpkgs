@@ -5,6 +5,7 @@
 , cmake
 , pcsclite
 , libnfc-nci
+, config
 , enableBell ? config.ifdnfc-nci.enableBell or false
 }:
 
