@@ -5,19 +5,17 @@
 , cmake
 , pcsclite
 , libnfc-nci
-, config
-, enableBell ? config.ifdnfc-nci.enableBell or false
 }:
 
 stdenv.mkDerivation rec {
   pname = "ifdnfc-nci";
-  version = "0.2.1";
+  version = "0.2.0";
 
   src = fetchFromGitHub {
     owner = "StarGate01";
     repo = "ifdnfc-nci";
     rev = "v${version}";
-    sha256 = "sha256-gU9XMj27v7wT+LR1nShDW2bTP6LYNkjoh7xMXgX7y3A=";
+    sha256 = "sha256-sI0X2uXMIxv+MJ/07zgaQfV/siBvUs49lxSieYnIEVQ=";
   };
 
   nativeBuildInputs = [
@@ -28,10 +26,6 @@ stdenv.mkDerivation rec {
   buildInputs = [
     pcsclite
     libnfc-nci
-  ];
-
-  cmakeFlags = [ ] ++ lib.optionals enableBell [
-    "-DWITH_DETECTION_BELL=ON"
   ];
 
   meta = with lib; {
