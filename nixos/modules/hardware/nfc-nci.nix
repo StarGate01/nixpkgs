@@ -102,11 +102,20 @@ in
       '';
       type = lib.types.attrs;
     };
+
+    enableIFD = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = ''
+        Register ifdnfc-nci as a serial reader with pcscd.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
       pkgs.libnfc-nci
+    ] ++ lib.optionals cfg.enableIFD [
       pkgs.ifdnfc-nci
     ];
 
@@ -129,7 +138,7 @@ in
       "nxp-pn5xx"
     ];
 
-    services.pcscd.readerConfigs = [ ''
+    services.pcscd.readerConfigs = [ ] ++ lib.optionals cfg.enableIFD [ ''
       FRIENDLYNAME "NFC NCI"
       LIBPATH      ${pkgs.ifdnfc-nci}/lib/libifdnfc-nci.so
       CHANNELID    0
