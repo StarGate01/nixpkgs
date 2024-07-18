@@ -75,13 +75,7 @@ let
 in
 {
   options.hardware.nfc-nci = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        Add pn5xx kernel module with udev rules, add libnfc-nci userland, add ifdnfc-nci PC/SC driver, and ensure 'dialout' group exists.
-      '';
-    };
+    enable = lib.mkEnableOption "PN5xx kernel module with udev rules, libnfc-nci userland, and optional ifdnfc-nci PC/SC driver";
 
     blacklistedKernelModules = lib.mkOption {
       type = lib.types.listOf lib.types.str;
@@ -144,8 +138,6 @@ in
       CHANNELID    0
       ''
     ];
-
-    users.groups.dialout = { };
   };
 
   meta.maintainers = with lib.maintainers; [ stargate01 ];
