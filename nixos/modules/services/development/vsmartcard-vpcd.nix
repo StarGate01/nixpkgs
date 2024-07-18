@@ -7,7 +7,7 @@ let
 in {
 
   options.services.vsmartcard-vpcd = {
-    enable = mkEnableOption "Virtual smart card driver.";
+    enable = lib.mkEnableOption "Virtual smart card driver.";
 
     port = lib.mkOption {
       type = lib.types.port;
