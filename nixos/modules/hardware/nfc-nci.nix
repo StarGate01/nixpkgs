@@ -138,6 +138,12 @@ in
       CHANNELID    0
       ''
     ];
+
+    # NFC chip looses power when system goes to sleep / hibernate,
+    # and needs to be re-initialized upon wakeup
+    powerManagement.resumeCommands = '''' + lib.optionals cfg.enableIFD ''
+      systemctl restart pcscd.service
+    '';
   };
 
   meta.maintainers = with lib.maintainers; [ stargate01 ];
