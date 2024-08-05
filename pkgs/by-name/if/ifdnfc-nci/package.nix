@@ -9,13 +9,13 @@
 
 stdenv.mkDerivation rec {
   pname = "ifdnfc-nci";
-  version = "0.2.0";
+  version = "0.2.1";
 
   src = fetchFromGitHub {
     owner = "StarGate01";
     repo = "ifdnfc-nci";
     rev = "v${version}";
-    sha256 = "sha256-sI0X2uXMIxv+MJ/07zgaQfV/siBvUs49lxSieYnIEVQ=";
+    sha256 = "sha256-I2MNzmaxQUh4bN3Uytf2bQRthByEaFWM7c79CKZJQZA=";
   };
 
   nativeBuildInputs = [

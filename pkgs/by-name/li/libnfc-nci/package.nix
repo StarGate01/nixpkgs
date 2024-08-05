@@ -9,13 +9,13 @@
 
 stdenv.mkDerivation {
   pname = "libnfc-nci";
-  version = "2.4.1-unstable-2024-07-16";
+  version = "2.4.1-unstable-2024-08-05";
 
   src = fetchFromGitHub {
     owner = "StarGate01";
     repo = "linux_libnfc-nci";
-    rev = "4fc402ffd07642b1231fb259a6b956771d524e5e";
-    sha256 = "sha256-mrGsTikxS/oR+Wh9a4aVCszbF/nbFAVBQfYN421vqU0=";
+    rev = "7ce9c8aad0e37850a49b6d8dcc22ae5c783268e7";
+    sha256 = "sha256-iSvDiae+A2hUok426Lj5TMn3Q9G+vH1G0jajP48PehQ=";
   };
 
   buildInputs = [
