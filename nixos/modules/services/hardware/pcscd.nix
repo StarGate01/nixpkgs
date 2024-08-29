@@ -18,9 +18,9 @@ let
 in
 {
   imports = [
-    (lib.mkChangedOptionModule [ "services" "pcscd" "readerConfig" ] [ "services" "pcscd" "readerConfigs" ]
+    (lib.mkChangedOptionModule [ "services" "pcscd" "readerConfig"] [ "services" "pcscd" "readerConfigs" ]
      (config:
-        let readerConfig = getAttrFromPath [ "services" "pcscd" "readerConfig" ] config;
+        let readerConfig = getAttrFromPath [ "services" "pcscd" "readerConfig"] config;
         in [ readerConfig ]
       )
     )
@@ -43,8 +43,7 @@ in
         FRIENDLYNAME      "Some serial reader"
         DEVICENAME        /dev/ttyS0
         LIBPATH           /path/to/serial_reader.so
-        CHANNELID         1
-        ''
+        CHANNELID         1''
       ];
       description = ''
         Configuration for devices that aren't hotpluggable.
